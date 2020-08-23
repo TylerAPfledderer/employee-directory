@@ -1,0 +1,123 @@
+// ============================================= //
+//                    Mixins                     //
+// ============================================= //
+
+// -- Flexbox -- //
+@mixin flexy($dis: flex, $dir: null, $wrap: null, $just: null, $items: null, $content: null) {
+
+    // Display
+    @if ($dis) {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: $dis;
+    }
+
+    @else {
+        display: null;
+    }
+
+    // Direction and Wrap
+    flex-direction: $dir;
+    -ms-flex-direction: $dir;
+
+    @if ($dir=='column') {
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+    }
+
+    @else if ($dir=='column-reverse') {
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: reverse;
+    }
+
+    @else if ($dir=='row') {
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+    }
+
+    @else if ($dir=='row-reverse') {
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: reverse;
+    }
+
+    flex-wrap: $wrap;
+    -ms-flex-wrap: $wrap;
+
+    // Justify   
+
+    justify-content: $just;
+
+    @if ($just=='flex-start'or $just=='start') {
+        -webkit-box-pack: start;
+        -ms-flex-pack: start;
+    }
+
+    @else if ($just=='flex-end'or $just=='end') {
+        -webkit-box-pack: end;
+        -ms-flex-pack: end;
+    }
+
+    @else {
+        -webkit-box-pack: $just;
+        -ms-flex-pack: $just;
+    }
+
+    // Align
+
+    align-items: $items;
+
+    @if ($items=='flex-start'or $items=='start') {
+        -webkit-box-align: start;
+        -ms-flex-align: start;
+    }
+
+    @else if ($items=='flex-end'or $items=='end') {
+        -webkit-box-align: end;
+        -ms-flex-align: end;
+    }
+
+    @else {
+        -webkit-box-align: $items;
+        -ms-flex-align: $items;
+    }
+
+    align-content: $content;
+
+    @if ($content=='flex-start'or $content=='start') {
+        -ms-flex-line-pack: start;
+    }
+
+    @else if ($content=='flex-end'or $content=='end') {
+        -ms-flex-line-pack: end;
+    }
+
+    @else {
+        -ms-flex-line-pack: $content;
+    }
+}
+
+// -- Media Queries -- //
+
+$breakpoints: (
+    'medium': (min-width: 768px),
+    'large': (min-width: 1024px)
+);
+
+@mixin respond-to($breakpoint) {
+    $raw-query: map-get($breakpoints, $breakpoint);
+
+    @if $raw-query {
+        $query: if(type-of($raw-query)=='string',
+                unquote($raw-query),
+                inspect($raw-query));
+
+        @media #{$query} {
+            @content;
+        }
+    }
+
+    @else {
+        @error 'No value found for `#{$breakpoint}`. '
+        +'Please make sure it is defined in `$breakpoints` map.';
+    }
+}

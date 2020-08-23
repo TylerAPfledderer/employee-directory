@@ -1,0 +1,271 @@
+@use 'normalize';
+
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400&family=Titillium+Web:wght@300;400;600&display=swap');
+
+// Set exponential equation (Primarily used in this project for basic font scaling)
+@function pow($base, $exponent) {
+    $value: $base;
+    @for $i from 1 to $exponent {
+        $value: $value * $base;
+    }
+
+    @return $value;
+}
+
+// -- PX to REM -- //
+@function rem($size) {
+    @return ($size / 16px) * 1rem; 
+}
+
+// -- Flexbox -- //
+@mixin flexy($dis: flex, $dir: null, $wrap: null, $just: null, $items: null, $content: null) {
+
+    // Display
+    @if ($dis) {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: $dis;
+    }
+
+    @else {
+        display: null;
+    }
+
+    // Direction and Wrap
+    flex-direction: $dir;
+    -ms-flex-direction: $dir;
+
+    @if ($dir=='column') {
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+    }
+
+    @else if ($dir=='column-reverse') {
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: reverse;
+    }
+
+    @else if ($dir=='row') {
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+    }
+
+    @else if ($dir=='row-reverse') {
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: reverse;
+    }
+
+    flex-wrap: $wrap;
+    -ms-flex-wrap: $wrap;
+
+    // Justify   
+
+    justify-content: $just;
+
+    @if ($just=='flex-start'or $just=='start') {
+        -webkit-box-pack: start;
+        -ms-flex-pack: start;
+    }
+
+    @else if ($just=='flex-end'or $just=='end') {
+        -webkit-box-pack: end;
+        -ms-flex-pack: end;
+    }
+
+    @else {
+        -webkit-box-pack: $just;
+        -ms-flex-pack: $just;
+    }
+
+    // Align
+
+    align-items: $items;
+
+    @if ($items=='flex-start'or $items=='start') {
+        -webkit-box-align: start;
+        -ms-flex-align: start;
+    }
+
+    @else if ($items=='flex-end'or $items=='end') {
+        -webkit-box-align: end;
+        -ms-flex-align: end;
+    }
+
+    @else {
+        -webkit-box-align: $items;
+        -ms-flex-align: $items;
+    }
+
+    align-content: $content;
+
+    @if ($content=='flex-start'or $content=='start') {
+        -ms-flex-line-pack: start;
+    }
+
+    @else if ($content=='flex-end'or $content=='end') {
+        -ms-flex-line-pack: end;
+    }
+
+    @else {
+        -ms-flex-line-pack: $content;
+    }
+}
+
+body {
+    background-color: #fafafa;
+    color: #6f6f6f;
+    font-family: "Titillium Web", 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: 300;
+}
+
+h1,
+h2 {
+    color: black;
+}
+
+h1 {
+    font-family: raleway, Arial, Helvetica, sans-serif;
+    font-size: pow(1.2, 2) * 1rem;
+    font-weight: 400;
+    text-transform: uppercase;
+}
+
+h2 {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+h2,
+p {
+    margin: 0;
+}
+
+main {
+    max-width: rem(1144px);
+    width: 90%;
+    margin: auto;
+}
+
+// == SearchBar == //
+
+.search-bar {
+    padding: rem(8px);
+    width: rem(201px);
+    margin-bottom: rem(16px);
+}
+
+// == Employee Directory Container == //
+
+.directory-wrapper {
+    display: grid;
+    justify-content: center;
+    grid-template-columns: repeat(auto-fit, 360px);
+    grid-gap: rem(32px);
+}
+
+.employee-card {
+    @include flexy($items: center);
+    background-color: white;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    cursor: pointer;
+    padding: rem(16px);
+
+    &__img {
+        border-radius: 50%;
+        margin-right: rem(16px);
+    }
+
+    &__text {
+        @include flexy($dir: column, $just: center);
+        overflow-wrap: break-word;
+
+        p {
+            margin-top: rem(8px);
+        }
+    }
+}
+
+/* --- Modal Overlay -- */
+
+.modal-overlay {
+    background-color: rgba(black, .5);
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+
+    //Style the arrows used to navigate the modal cards
+    &__arrow {
+        color: white;
+        cursor: pointer;
+        font-size: 3rem;
+        font-weight: 900;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+
+        &:hover {
+            color: darken(white, 15%);
+        }
+
+        &--left {
+            left: -50px;
+        }
+
+        &--right {
+            right: -50px;
+        }
+    }
+}
+
+.employee-modal {
+    @include flexy($dir: column);
+    cursor: unset;
+    display: inline-block;
+    padding: rem(24px);
+    width: rem(268px);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    // Style the "X" shown in the modal card
+    &__close {
+        cursor: pointer;
+        font-size: 1.2rem;
+        font-weight: bold;
+        padding: rem(8px);
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+    &__upper,
+    &__lower {
+        padding: rem(16px);
+        text-align: center;
+    }
+    // Basic info shown at the top of the modal card
+    &__upper {
+        line-height: 1.5;
+    }
+
+    // Additional info shown at the bottom of the modal card
+    &__lower {
+        line-height: 2;
+        border-top: 1px solid #aaa;
+    }
+
+    &__img {
+        margin: 0;
+    }
+}
+
+/* -- Mini styles triggered by JS -- */
+
+.visible {
+    display: unset;
+}
