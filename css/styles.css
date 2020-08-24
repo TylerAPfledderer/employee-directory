@@ -256,7 +256,8 @@ main {
   justify-content: center;
   -webkit-box-pack: center;
   -ms-flex-pack: center;
-  overflow-wrap: break-word;
+  overflow-wrap: anywhere;
+  width: 25ch;
 }
 .employee-card__text p {
   margin-top: 0.5rem;
@@ -302,7 +303,7 @@ main {
   cursor: unset;
   display: inline-block;
   padding: 1.5rem;
-  width: 16.75rem;
+  width: 22.5rem;
   position: absolute;
   top: 50%;
   left: 50%;

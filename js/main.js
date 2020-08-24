@@ -74,7 +74,7 @@ function employeeModal(index) {
 	const employeeCity = employees[currentIndex].location.city;
 	const employeePhone = employees[currentIndex].cell;
 	const employeeAddress = 
-		`${employees[currentIndex].location.street.number} ${employees[currentIndex].location.street.name}`;
+		`${employees[currentIndex].location.street.number} ${employees[currentIndex].location.street.name}, ${employees[currentIndex].location.state} ${employees[currentIndex].location.postcode}`;
 	const employeeDOB = 
 		`${employees[currentIndex].dob.date.slice(5, 7)}/${employees[currentIndex].dob.date.slice(8, 10)}/${employees[currentIndex].dob.date.slice(0, 4)}`;
 
@@ -199,7 +199,7 @@ function employeeSearch () {
 		if(!search) {
 			employee.style.display = "none";
 		} else {
-			employee.style.display = "unset";
+			employee.style.display = "flex";
 		}
 	}
 }

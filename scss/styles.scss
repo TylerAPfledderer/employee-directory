@@ -178,7 +178,8 @@ main {
 
     &__text {
         @include flexy($dir: column, $just: center);
-        overflow-wrap: break-word;
+        overflow-wrap: anywhere;
+        width: 25ch;
 
         p {
             margin-top: rem(8px);
@@ -226,7 +227,7 @@ main {
     cursor: unset;
     display: inline-block;
     padding: rem(24px);
-    width: rem(268px);
+    width: rem(360px);
     position: absolute;
     top: 50%;
     left: 50%;
