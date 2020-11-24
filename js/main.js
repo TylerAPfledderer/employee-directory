@@ -16,7 +16,33 @@
  */
 
 const directory = document.querySelector(".directory-wrapper");
-let employees = [];
+
+// Function to take the data of employees and inject them into the DOM as card components
+const displayEmployees = (employeeData) => {
+	employees = employeeData;
+	// Loop through data array of employee information.
+	// Use 'for' loop instead of 'forEach' for better performance.
+	for (let i = 0; i < employees.length; i++) {
+		// Simplify the interpolation names
+		const employeePicture = employees[i].picture.medium;
+		const employeeFirstName = employees[i].name.first;
+		const employeeLastName = employees[i].name.last;
+		const employeeEmail = employees[i].email;
+		const employeeCity = employees[i].location.city;
+
+		// Inject data into the directory-wrap container
+		directory.innerHTML += `
+					<section class="employee-card" data-index="${i}">
+							<img src="${employeePicture}" alt="Picture of ${employeeFirstName} ${employeeLastName}" class="employee-card__img">
+							<div class="employee-card__text">
+									<h2 class="employee-card__name">${employeeFirstName} ${employeeLastName}</h2>
+									<p class="employee-card__email" aria-label="${employeeEmail}">${employeeEmail}</p>
+									<p class="employee-card__city" aria-label="${employeeCity}">${employeeCity}</p>
+							</div>
+					</section>
+			`;
+	}
+}
 
 // ==== Retrieve data from RandomUser API ==== //
 
@@ -25,36 +51,11 @@ fetch(
 )
 	// Convert data into JSON
 	.then(response => response.json())
-
-	// Manipulate the data.
-	.then(data => {
-		employees = data.results;
-
-		// Loop through data array of employee information.
-		// Use 'for' loop instead of 'forEach' for better performance.
-		for (let i = 0; i < employees.length; i++) {
-			// Simplify the interpolation names
-			const employeePicture = employees[i].picture.medium;
-			const employeeFirstName = employees[i].name.first;
-			const employeeLastName = employees[i].name.last;
-			const employeeEmail = employees[i].email;
-			const employeeCity = employees[i].location.city;
-
-			// Inject data into the directory-wrap container
-			directory.innerHTML += `
-            <section class="employee-card" data-index="${i}">
-                <img src="${employeePicture}" alt="Picture of ${employeeFirstName} ${employeeLastName}" class="employee-card__img">
-                <div class="employee-card__text">
-                    <h2 class="employee-card__name">${employeeFirstName} ${employeeLastName}</h2>
-                    <p class="employee-card__email" aria-label="${employeeEmail}">${employeeEmail}</p>
-                    <p class="employee-card__city" aria-label="${employeeCity}">${employeeCity}</p>
-                </div>
-            </section>
-        `;
-		}
-	})
+	// Step into the JSON object to easily access the array
+	.then(res => res.results)
+	// Display the data to the DOM
+	.then(data => displayEmployees(data))
 	.catch(err => console.error("There was a problem: ", err));
-
 
 // ==== Modal Overlay ==== //
 
@@ -151,6 +152,17 @@ function employeeModal(index) {
 		// "Delete all of the HTML inside the the parent container"
     modalOverlay.innerHTML = "";
 	});
+
+	// Close modal when user click overlay (and not the card)
+	modalOverlay.addEventListener("click", (e) => {
+		console.log(e.target);
+		if (e.target === modalOverlay) {
+			// Remove the class that shows the overlay
+			modalOverlay.classList.remove("visible");
+			// "Delete all of the HTML inside the the parent container"
+			modalOverlay.innerHTML = "";
+		}
+	});
 }
 
 
@@ -180,7 +192,7 @@ function employeeSearch () {
 	const input = searchBar
 									.value
 									.toLowerCase();
-	for(let j = 0; j < employees.length; j++) {
+	for (let j = 0; j < employees.length; j++) {
 		
 		// Grab the name from the object in the Array index instance
 		// Check Truthy or falsy if input text is included in the name.
