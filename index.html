@@ -1,20 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Employee Directory API</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project 8 | Employee Directory API</title>
-    <link rel="stylesheet" href="css/styles.css">
-</head>
-
-<body>
+  <body>
     <main>
-        <h1>Awesome startup employee directory</h1>
-        <input type="text" id="js-search-bar" class="search-bar" placeholder="Search for Employee by Name">
-        <div class="directory-wrapper">
-            <!-- Injected JS of the employee card's-->
-            <!-- <section class="employee-card" data-index="${i}">
+      <h1>Awesome startup employee directory</h1>
+      <input
+        type="text"
+        id="js-search-bar"
+        class="search-bar"
+        placeholder="Search for Employee by Name"
+      />
+      <div class="directory-wrapper">
+        <!-- Injected JS of the employee card's-->
+        <!-- <section class="employee-card" data-index="${i}">
                 <img src="${employeePicture}" alt="Picture of ${employeeFirstName} ${employeeLastName}" class="employee-card__img">
                 <div class="employee-card__text">
                     <h2 class="employee-card__name">${employeeFirstName} ${employeeLastName}</h2>
@@ -22,11 +26,11 @@
                     <p class="employee-card__city" aria-label="${employeeCity}">${employeeCity}</p>
                 </div>
             </section> -->
-        </div>
+      </div>
 
-        <!-- Modal Window of the directory card, also injected by JS API -->
-        <div class="modal-overlay">
-            <!-- <section class="employee-modal employee-card">
+      <!-- Modal Window of the directory card, also injected by JS API -->
+      <div class="modal-overlay">
+        <!-- <section class="employee-modal employee-card">
                 <div class="employee-modal__close" id="js-modal-close">X</div>
                 <div class="employee-modal__upper">
                     <img src="${modalData[index].picture.large}" alt="Large Picture of ${employeeName}" class="employee-card__img employee-modal__img">
@@ -40,9 +44,8 @@
                     <p class="employee-modal__birthday">Birthday: ${employeeDOB}</p>
                 </div>
             </section> -->
-        </div>
+      </div>
     </main>
     <script src="js/main.js"></script>
-</body>
-
+  </body>
 </html>
